@@ -1,0 +1,4 @@
+interface:
+  display_name: "Orchestrator CLI"
+  short_description: "Coordinate headless CLI tasks and native sessions"
+  default_prompt: "Use $orchestrator-cli to plan, dispatch, and track headless worker tasks through GitHub Issues or local Markdown, preserving exact provider-native IDs and using live routes only when follow-ups require them."

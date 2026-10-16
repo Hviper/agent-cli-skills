@@ -1,0 +1,4 @@
+interface:
+  display_name: "Antigravity CLI"
+  short_description: "Run or resume native Antigravity sessions"
+  default_prompt: "Use $antigravity-cli to choose headless structured output or live interactive agy delivery, then preserve the exact native conversation without CAO."
