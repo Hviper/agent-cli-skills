@@ -16,21 +16,26 @@ Codex remains responsible for the problem statement, scope, architecture, accept
 ## Routing workflow
 
 1. Inspect the actual workspace with `pwd` and Git status. Read applicable `AGENTS.md`, `CLAUDE.md`, and local rules before making a plan.
-2. Classify the request and read the matching Waza skill from the local skills directory (normally `~/.agents/skills/<name>/SKILL.md`). Prefer the most specific installed workflow:
+2. Run the Waza readiness gate before routing. Resolve the Waza skills root from `$WAZA_SKILLS_DIR` first, then `~/.agents/skills`. Confirm the root exists, contains a skill manifest or skill directories, and contains each requested skill's `SKILL.md`.
+   - If Waza is present but a requested skill is missing, install only that skill through the detected official Waza installer or package manager, then re-check the files.
+   - If Waza is absent, look for an installed official command such as `waza` or `waza-cli`, inspect its help output, and use its documented install/bootstrap command. Do not invent flags or install from an untrusted URL.
+   - If no Waza installer is available, use the system skill installer only when an explicit public GitHub source is known; otherwise report `blocked-resource-unavailable` and tell the user exactly which Waza source or installer is required.
+   - Never install a whole unrelated skill catalog just to satisfy one request. The user's request to bootstrap Waza authorizes installing the missing Waza package; still stop for credentials, unknown provenance, or a package that is unrelated to the requested workflow.
+3. Classify the request and read the matching Waza skill from the local skills directory (normally `~/.agents/skills/<name>/SKILL.md`). Prefer the most specific installed workflow:
    - `hunt` for errors, regressions, crashes, failing tests, or broken behavior.
    - `think` for architecture, feasibility, design, and value decisions.
    - `ui` for frontend, visual, typography, and interaction work.
    - `check` for reviews, diffs, release readiness, publishing, and audits.
    - `learn` for unfamiliar domains, source bundles, or research synthesis.
    - another installed Waza skill when its description clearly matches better.
-3. Apply the selected skill's diagnosis or planning process before dispatching implementation. For a bug, `hunt` must establish a likely root cause and a reproducible verification path first. Do not send Antigravity a vague request to investigate when Codex can state the observed failure and scope.
-4. Decide the execution route:
+4. Apply the selected skill's diagnosis or planning process before dispatching implementation. For a bug, `hunt` must establish a likely root cause and a reproducible verification path first. Do not send Antigravity a vague request to investigate when Codex can state the observed failure and scope.
+5. Decide the execution route:
    - Direct `antigravity-cli` for one bounded implementation task with a clear workspace, inputs, and verification command.
    - `orchestrator-cli` plus `antigravity-cli` for multi-step work, uncertain ownership, resource dependencies, recovery, durable handoff, or more than one implementation checkpoint.
-5. Run the required resource readiness checks before sending a real task prompt. If a required CLI, model, workspace, test harness, or integration is not ready, report `blocked-resource-unavailable` with evidence instead of asking Antigravity to guess.
-6. Dispatch one writer at a time. Do not run competing writing agents in the same worktree. Preserve the exact Antigravity conversation ID and the orchestrator dispatch ID.
-7. Review the returned files, diff, tests, and handoff. If the result fails the acceptance criteria, send a focused follow-up to the same Antigravity conversation when it is resumable. If the session cannot be recovered, start one clearly labelled new attempt with a factual diff-based handoff.
-8. Report changed files, verification output, remaining risks, and blockers. Never claim completion from an agent's assertion alone.
+6. Run the required resource readiness checks before sending a real task prompt. If a required CLI, model, workspace, test harness, or integration is not ready, report `blocked-resource-unavailable` with evidence instead of asking Antigravity to guess.
+7. Dispatch one writer at a time. Do not run competing writing agents in the same worktree. Preserve the exact Antigravity conversation ID and the orchestrator dispatch ID.
+8. Review the returned files, diff, tests, and handoff. If the result fails the acceptance criteria, send a focused follow-up to the same Antigravity conversation when it is resumable. If the session cannot be recovered, start one clearly labelled new attempt with a factual diff-based handoff.
+9. Report changed files, verification output, remaining risks, and blockers. Never claim completion from an agent's assertion alone.
 
 ## Task brief for Antigravity
 
