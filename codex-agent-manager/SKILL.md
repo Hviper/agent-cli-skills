@@ -18,7 +18,11 @@ Codex remains responsible for the problem statement, scope, architecture, accept
 1. Inspect the actual workspace with `pwd` and Git status. Read applicable `AGENTS.md`, `CLAUDE.md`, and local rules before making a plan.
 2. Run the Waza readiness gate before routing. Resolve the Waza skills root from `$WAZA_SKILLS_DIR` first, then `~/.agents/skills`. Confirm the root exists, contains a skill manifest or skill directories, and contains each requested skill's `SKILL.md`.
    - If Waza is present but a requested skill is missing, install only that skill through the detected official Waza installer or package manager, then re-check the files.
-   - If Waza is absent, look for an installed official command such as `waza` or `waza-cli`, inspect its help output, and use its documented install/bootstrap command. Do not invent flags or install from an untrusted URL.
+   - If Waza is absent, use the official source `https://github.com/tw93/Waza` and its documented bootstrap command:
+     ```bash
+     npx skills add tw93/Waza -a claude-code codex cursor -g -y
+     ```
+     Then re-check `~/.agents/skills` and the requested `SKILL.md` files before routing. Do not substitute an untrusted URL or silently change the target agents.
    - If no Waza installer is available, use the system skill installer only when an explicit public GitHub source is known; otherwise report `blocked-resource-unavailable` and tell the user exactly which Waza source or installer is required.
    - Never install a whole unrelated skill catalog just to satisfy one request. The user's request to bootstrap Waza authorizes installing the missing Waza package; still stop for credentials, unknown provenance, or a package that is unrelated to the requested workflow.
 3. Classify the request and read the matching Waza skill from the local skills directory (normally `~/.agents/skills/<name>/SKILL.md`). Prefer the most specific installed workflow:
