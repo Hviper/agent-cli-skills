@@ -1,0 +1,2 @@
+name: codex-agent-manager
+description: Codex manager that selects Waza workflows and delegates implementation to Antigravity with durable orchestration.

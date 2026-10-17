@@ -8,6 +8,7 @@ A focused collection of skills for delegating work to local AI coding CLIs and c
 - `codex-cli` — direct Codex CLI delegation with JSON output and verification workflows.
 - `antigravity-cli` — direct Google Antigravity CLI delegation and conversation recovery.
 - `orchestrator-cli` — durable task orchestration across Claude, Codex, and Antigravity using GitHub Issues or local records.
+- `codex-agent-manager` — lets Codex select Waza workflows, diagnose problems, and delegate implementation to Antigravity.
 
 ## Installation
 
